@@ -1,0 +1,33 @@
+from pathlib import Path
+
+PROJECT_PATH = Path.cwd()
+
+CHROMA_DB_PATH = "chroma_db"
+
+EMBEDDING_MODEL = "models/text-embedding-004"
+
+SUPPORTED_EXTENSIONS = {
+    ".py",
+    ".js",
+    ".jsx",
+    ".ts",
+    ".tsx",
+    ".java",
+    ".cpp",
+    ".c",
+    ".md",
+    ".json",
+}
+
+# Ignore these folders
+IGNORE_DIRECTORIES = {
+    ".git",
+    "venv",
+    ".venv",
+    "__pycache__",
+    "node_modules",
+    "dist",
+    "build",
+    ".idea",
+    ".vscode",
+}
