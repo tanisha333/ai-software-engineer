@@ -4,7 +4,7 @@ PROJECT_PATH = Path.cwd()
 
 CHROMA_DB_PATH = "chroma_db"
 
-EMBEDDING_MODEL = "models/text-embedding-004"
+EMBEDDING_MODEL = "gemini-embedding-2-preview"
 
 SUPPORTED_EXTENSIONS = {
     ".py",

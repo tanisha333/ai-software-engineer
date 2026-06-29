@@ -1,27 +1,28 @@
 from langchain_core.messages import HumanMessage
 
-from graph.builder import build_graph
+from graphs.graph_builder import build_graph
 
 app = build_graph()
 
 config = {
     "configurable": {
-        "thread_id": "software-engineer-session"
+        "thread_id": "software-engineer"
     }
 }
 
 
 def main():
 
+    print("=" * 60)
     print("🤖 AI Software Engineer")
-    print("Type 'exit' to quit.\n")
+    print("Type 'exit' to quit.")
+    print("=" * 60)
 
     while True:
 
-        question = input("You: ")
+        question = input("\nYou: ")
 
         if question.lower() == "exit":
-            print("Goodbye!")
             break
 
         result = app.invoke(
@@ -35,9 +36,14 @@ def main():
 
         print("\nAI:\n")
 
-        print(result["messages"][-1].content)
+        response = result["messages"][-1]
 
-        print()
+        if isinstance(response.content, list):
+            for item in response.content:
+                if item.get("type") == "text":
+                    print(item["text"])
+        else:
+            print(response.content)
 
 
 if __name__ == "__main__":
