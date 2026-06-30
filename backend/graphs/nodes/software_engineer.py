@@ -20,17 +20,25 @@ llm = get_llm().bind_tools(
     ]
 )
 
-# Prompt → LLM
 chain = software_engineer_prompt | llm
 
 
 def software_engineer(state):
+
+    print("\n🤖 Software Engineer Agent")
 
     response = chain.invoke(
         {
             "messages": state["messages"]
         }
     )
+
+    if response.tool_calls:
+        print("🔧 Tool selected:")
+        for tool in response.tool_calls:
+            print(f"   • {tool['name']}")
+    else:
+        print("💬 Direct response generated")
 
     return {
         "messages": [response]

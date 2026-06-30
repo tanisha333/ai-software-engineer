@@ -19,7 +19,6 @@ SUPPORTED_EXTENSIONS = {
     ".json",
 }
 
-# Ignore these folders
 IGNORE_DIRECTORIES = {
     ".git",
     "venv",

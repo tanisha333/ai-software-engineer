@@ -20,31 +20,66 @@ def main():
 
     while True:
 
-        question = input("\nYou: ")
+        question = input("\nYou: ").strip()
 
         if question.lower() == "exit":
+            print("\n👋 Goodbye!")
             break
 
-        result = app.invoke(
-            {
-                "messages": [
-                    HumanMessage(content=question)
-                ]
-            },
-            config=config
-        )
+        try:
 
-        print("\nAI:\n")
+            result = app.invoke(
+                {
+                    "messages": [
+                        HumanMessage(content=question)
+                    ]
+                },
+                config=config
+            )
 
-        response = result["messages"][-1]
+            print("\nAI:\n")
 
-        if isinstance(response.content, list):
-            for item in response.content:
-                if item.get("type") == "text":
-                    print(item["text"])
-        else:
-            print(response.content)
+            response = result["messages"][-1]
+            content = response.content
 
+            # If Gemini returns a normal string
+            if isinstance(content, str):
+                print(content)
+
+            # If Gemini returns a list of content blocks
+            elif isinstance(content, list):
+
+                for item in content:
+
+                    # New LangChain content blocks
+                    if isinstance(item, dict):
+                        if item.get("type") == "text":
+                            print(item.get("text", ""), end="")
+
+                    # Plain strings
+                    elif isinstance(item, str):
+                        print(item, end="")
+
+                    # Fallback
+                    else:
+                        print(str(item), end="")
+
+                print()
+
+            # Any other object
+            else:
+                print(content)
+
+        except Exception as e:
+            error = str(e)
+            print()
+            if "429" in error or "RESOURCE_EXHAUSTED" in error:
+                print("❌ Gemini API quota exceeded.")
+                print("Please try again later or use another API key.")
+            elif "404" in error:
+                print("❌ Resource not found.")
+            else:
+                print(f"❌ Error: {error}")
 
 if __name__ == "__main__":
     main()

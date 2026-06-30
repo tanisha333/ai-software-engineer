@@ -8,5 +8,5 @@ def get_llm():
     api_key=os.getenv("GOOGLE_API_KEY")
     if not api_key:
         raise ValueError("GOOGLE_API_KEY not found in .env")
-    llm=ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key=api_key,temperature=0,)
+    llm=ChatGoogleGenerativeAI(model="gemini-2.5-flash",google_api_key=api_key,temperature=0,streaming=True,)
     return llm
