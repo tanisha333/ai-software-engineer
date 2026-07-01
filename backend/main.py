@@ -42,31 +42,25 @@ def main():
             response = result["messages"][-1]
             content = response.content
 
-            # If Gemini returns a normal string
             if isinstance(content, str):
                 print(content)
 
-            # If Gemini returns a list of content blocks
             elif isinstance(content, list):
 
                 for item in content:
 
-                    # New LangChain content blocks
                     if isinstance(item, dict):
                         if item.get("type") == "text":
                             print(item.get("text", ""), end="")
 
-                    # Plain strings
                     elif isinstance(item, str):
                         print(item, end="")
 
-                    # Fallback
                     else:
                         print(str(item), end="")
 
                 print()
 
-            # Any other object
             else:
                 print(content)
 
